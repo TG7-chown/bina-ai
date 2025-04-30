@@ -25,29 +25,29 @@ if "last_result" not in st.session_state:
 
 if st.button("Generate Website Plan") and user_input: 
         with st.spinner("Thinking like a web designer..."): 
-                try: 
-                        with open("app/prompt_template.txt", "r", encoding="utf-8") as file: 
-                                base_prompt = file.read()
+                try:
+                    with open("app/prompt_template.txt", "r", encoding="utf-8") as file:
+                        base_prompt = file.read()
 
-                        prompt = base_prompt.format(user_input=user_input, language=language)
+                    prompt = base_prompt.format(user_input=user_input, language=language)
 
-                        response = client.chat.completions.create(
-                            model="gpt-3.5-turbo",
-                            messages=[
-                                {"role": "system", "content": "You are a helpful assistant that builds websites."},
-                                {"role": "user", "content": prompt}
-                            ]
-                        )
+                    response = client.chat.completions.create(
+                        model="gpt-3.5-turbo",
+                        messages=[
+                            {"role": "system", "content": "You are a helpful assistant that builds websites."},
+                            {"role": "user", "content": prompt}
+                        ]
+                    )
 
-                result = response.choices[0].message.content
-                st.session_state.last_result = result
+                    result = response.choices[0].message.content
+                    st.session_state.last_result = result
 
-                st.markdown("### Website Plan")
-                st.markdown(result)
+                    st.markdown("### Website Plan")
+                    st.markdown(result)
 
-            except Exception as e:
-                st.error(f"Something went wrong: {e}")
-
+                except Exception as e:
+                    st.error(f"Something went wrong: {e}")
+                
 if st.session_state.last_result:
         st.download_button( 
                 label="Download Website Plan as .txt", 
